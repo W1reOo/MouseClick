@@ -159,7 +159,6 @@ class AutoClickerApp:
         self.lock = threading.Lock()
 
         root.title("鼠标连点器 v1.0")
-        root.geometry("380x520")
         root.resizable(False, False)
 
         self.cfg_path = os.path.join(
@@ -269,6 +268,16 @@ class AutoClickerApp:
 
         self._apply_topmost()
         self._sync_mode()
+        self._fit_window()
+
+    def _fit_window(self):
+        """按内容自适应窗口大小，避免底部控件被裁剪。"""
+        self.root.update_idletasks()
+        w = max(380, self.root.winfo_reqwidth() + 20)
+        h = self.root.winfo_reqheight() + 4
+        x = (self.root.winfo_screenwidth() - w) // 2
+        y = (self.root.winfo_screenheight() - h) // 3
+        self.root.geometry(f"{w}x{h}+{x}+{y}")
 
     # ---------------- 交互逻辑 ----------------
 
